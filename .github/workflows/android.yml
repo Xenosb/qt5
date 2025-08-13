@@ -37,7 +37,7 @@ jobs:
           fetch-depth: 0
 
       - name: Log in to the Container registry
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
@@ -74,6 +74,9 @@ jobs:
     needs: docker
     container:
       image: ${{ matrix.config.image }}
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
       options: --user root
       volumes:
         - .:/workspace
@@ -86,7 +89,7 @@ jobs:
         - {
             name: "Android arm64-v8",
             artifact: "android-arm64-v8",
-            image: "ghcr.io/xenosb/qt5/android-arm64-v8:${{ github.ref_name }}",
+            image: "ghcr.io/xenosb/qt5/android-arm64-v8:${{ github.ref_name.replace('/', '-') }}",
             os: ubuntu-latest,
             cc: "gcc", cxx: "g++"
           }
@@ -97,13 +100,6 @@ jobs:
       id-token: write
 
     steps:
-    - name: Log in to the Container registry
-      uses: docker/login-action@v2
-      with:
-        registry: ${{ env.REGISTRY }}
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-
     - name: Skip
       run: echo "Hi"
 
