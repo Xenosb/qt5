@@ -28,6 +28,7 @@ jobs:
         - {
             name: "Android arm64-v8",
             artifact: "android-arm64-v8",
+            architecture: "arm64-v8a",
             image: "ghcr.io/xenosb/qt5/android-arm64-v8:latest"
         }
 
@@ -97,6 +98,7 @@ jobs:
         - {
             name: "Android arm64-v8",
             artifact: "android-arm64-v8",
+            architecture: "arm64-v8a",
             image: "ghcr.io/xenosb/qt5/android-arm64-v8:${{ github.ref_name }}",
             os: ubuntu-latest,
             cc: "gcc", cxx: "g++"
@@ -116,40 +118,23 @@ jobs:
         token: ${{ secrets.PRIVATE_TOKEN_GITHUB }}
         submodules: recursive
 
-    # - name: Configure host tools
-    #   run: |
-    #     mkdir -p build-host-tools
-    #     cd build-host-tools
-    #     ../configure \
-    #       -developer-build \
-    #       -nomake tests \
-    #       -nomake examples
+    - name: Configure Qt
+      run: |
+        mkdir -p build
+        cd build
+        ../configure \
+          -nomake examples \
+          -nomake tests \
+          -release \
+          -qt-host-path /opt/Qt/${{ env.QT_STABLE_VERSION }} \
+          -android-ndk ${{ env.ANDROID_SDK_ROOT }}/ndk/${{ env.ANDROID_NDK_VERSION }} \
+          -android-sdk ${{ env.ANDROID_SDK_ROOT }} \
+          -android-abis ${{ matrix.config.architecture }}
 
-    # - name: Build host tools
-    #   run: |
-    #     ninja \
-    #       -C build-host-tools \
-    #       host_tools
-
-    # - name: Configure Qt
-    #   run: |
-    #     mkdir -p build-android
-    #     cd build-android
-    #     ../configure \
-    #       -nomake examples \
-    #       -nomake tests \
-    #       -release \
-    #       -qt-host-path build-host-tools \
-    #       -android-ndk ${{ env.ANDROID_SDK_ROOT }}/ndk/${{ env.ANDROID_NDK_VERSION }} \
-    #       -android-sdk ${{ env.ANDROID_SDK_ROOT }} \
-    #       -android-abis arm64-v8a
-
-    # - name: Build Qt
-    #   run: |
-    #     cmake \
-    #       -S . \
-    #       -B build-android
-
-    #     ninja \
-    #       -C build-android
-
+    - name: Build Qt
+      run: |
+        cmake \
+          -S . \
+          -B build
+        ninja \
+          -C build
