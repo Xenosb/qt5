@@ -43,6 +43,7 @@ RUN \
         libxkbcommon-x11-0 \
         libxml2-dev \
         libxslt1-dev \
+        ninja-build \
         openjdk-17-jdk \
         sdkmanager \
         wget \
