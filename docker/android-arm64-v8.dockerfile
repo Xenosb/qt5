@@ -12,6 +12,7 @@ RUN \
     apt-get update && \
     apt-get install -y --no-install-recommends \
         build-essential \
+        cmake \
         ffmpeg \
         git \
         libclang-dev \
@@ -29,6 +30,7 @@ RUN \
         libpng-dev \
         libprotobuf-dev \
         libre2-dev \
+        libssl-dev \
         libtiff-dev \
         libudev-dev \
         libvpx-dev \
