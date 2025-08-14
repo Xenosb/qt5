@@ -53,11 +53,11 @@ RUN \
 # Install Android SDK and NDK
 RUN \
     sdkmanager --install \
-      "tools" \
-      "platform-tools" \
-      "platforms;android-$ANDROID_SDK_VERSION" \
-      "build-tools;$ANDROID_BUILD_TOOLS_VERSION" \
-      "ndk;$ANDROID_NDK_VERSION"
+        "tools" \
+        "platform-tools" \
+        "platforms;android-$ANDROID_SDK_VERSION" \
+        "build-tools;$ANDROID_BUILD_TOOLS_VERSION" \
+        "ndk;$ANDROID_NDK_VERSION"
 
 # Install latest stable Qt version
 RUN \
@@ -73,6 +73,11 @@ RUN \
         --confirm-command \
         --email $QT_EMAIL \
         --pw $QT_PASSWORD
+
+# Update environment variables
+ENV PATH=$PATH:/opt/android-sdk/build-tools/35.0.0/:/opt/android-sdk/platform-tools:/opt/android-sdk/tools:/opt/android-sdk/tools/bin
+ENV ANDROID_SDK_ROOT=/opt/android-sdk
+ENV ANDROID_NDK_ROOT=/opt/android-sdk/ndk/$ANDROID_NDK_VERSION
 
 # Set default workdir
 WORKDIR /workspace
