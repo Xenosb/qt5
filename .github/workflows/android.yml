@@ -9,7 +9,6 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: xenosb/qt5/android-arm64-v8
-  QT_STABLE_VERSION: 6.9.1
   QT_VERSION: 6.9.2
   QT_REF: 6.9
   ANDROID_SDK_VERSION: 35
@@ -74,7 +73,6 @@ jobs:
             --build-arg ANDROID_SDK_VERSION=${{ env.ANDROID_SDK_VERSION }} \
             --build-arg ANDROID_BUILD_TOOLS_VERSION=${{ env.ANDROID_BUILD_TOOLS_VERSION }} \
             --build-arg ANDROID_NDK_VERSION=${{ env.ANDROID_NDK_VERSION }} \
-            --build-arg QT_STABLE_VERSION=${{ env.QT_STABLE_VERSION }} \
             --secret id=QT_EMAIL,src=/tmp/qt_email \
             --secret id=QT_PASSWORD,src=/tmp/qt_password
           docker push ${{ steps.meta.outputs.tags }}
@@ -139,6 +137,7 @@ jobs:
           -C build-host-tools \
           host_tools
 
+# Fix issue with 
     - name: Configure Qt
       run: |
         mkdir -p build
@@ -147,7 +146,7 @@ jobs:
           -nomake examples \
           -nomake tests \
           -release \
-          -qt-host-path /opt/Qt/${{ env.QT_STABLE_VERSION }}/gcc_64 \
+          -qt-host-path ./build-host-tools \
           -android-ndk ${{ env.ANDROID_SDK_ROOT }}/ndk/${{ env.ANDROID_NDK_VERSION }} \
           -android-sdk ${{ env.ANDROID_SDK_ROOT }} \
           -android-abis ${{ matrix.config.architecture }} \
