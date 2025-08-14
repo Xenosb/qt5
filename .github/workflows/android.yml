@@ -135,6 +135,9 @@ jobs:
       run: |
         cmake \
           -S . \
-          -B build
+          -B build \
+          -DCMAKE_C_COMPILER_FRONTEND_VARIANT=GNU \
+          -DCMAKE_CXX_COMPILER_FRONTEND_VARIANT=GNU \
+          -DQT_GENERATE_WRAPPER_SCRIPTS_FOR_ALL_HOSTS=ON
         ninja \
           -C build
