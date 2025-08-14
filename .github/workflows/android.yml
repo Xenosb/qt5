@@ -12,6 +12,7 @@ env:
   QT_STABLE_VERSION: 6.9.1
   QT_VERSION: 6.9.2
   ANDROID_SDK_VERSION: 35
+  ANDROID_SDK_ROOT: /opt/android-sdk
   ANDROID_BUILD_TOOLS_VERSION: 35.0.0
   ANDROID_NDK_VERSION: 26.1.10909125
   BUILD_TYPE: Release
@@ -126,7 +127,7 @@ jobs:
           -nomake examples \
           -nomake tests \
           -release \
-          -qt-host-path /opt/Qt/${{ env.QT_STABLE_VERSION }} \
+          -qt-host-path /opt/Qt/${{ env.QT_STABLE_VERSION }}/gcc_64 \
           -android-ndk ${{ env.ANDROID_SDK_ROOT }}/ndk/${{ env.ANDROID_NDK_VERSION }} \
           -android-sdk ${{ env.ANDROID_SDK_ROOT }} \
           -android-abis ${{ matrix.config.architecture }}
