@@ -114,6 +114,7 @@ jobs:
     - name: Checkout Qt repository
       uses: actions/checkout@v4
       with:
+        ref: ${{ env.QT_VERSION }}
         fetch-depth: 1
         repository: Qt/qt5
         token: ${{ secrets.PRIVATE_TOKEN_GITHUB }}
