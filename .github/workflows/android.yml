@@ -132,7 +132,8 @@ jobs:
           -qt-host-path /opt/Qt/${{ env.QT_STABLE_VERSION }}/gcc_64 \
           -android-ndk ${{ env.ANDROID_SDK_ROOT }}/ndk/${{ env.ANDROID_NDK_VERSION }} \
           -android-sdk ${{ env.ANDROID_SDK_ROOT }} \
-          -android-abis ${{ matrix.config.architecture }}
+          -android-abis ${{ matrix.config.architecture }} \
+          -DQT_NO_PACKAGE_VERSION_CHECK=TRUE
 
     - name: Build Qt
       run: |
