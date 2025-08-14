@@ -44,6 +44,7 @@ RUN \
         libxslt1-dev \
         ninja-build \
         openjdk-17-jdk \
+        protobuf-compiler \
         sdkmanager \
         wget \
         zlib1g \

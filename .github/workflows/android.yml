@@ -127,9 +127,6 @@ jobs:
           -developer-build \
           -nomake tests \
           -nomake examples
-        cmake \
-          -B build-host-tools \
-          -S .
 
     - name: Build host tools
       run: |
@@ -137,7 +134,6 @@ jobs:
           -C build-host-tools \
           host_tools
 
-# Fix issue with 
     - name: Configure Qt
       run: |
         mkdir -p build
@@ -150,15 +146,12 @@ jobs:
           -android-ndk ${{ env.ANDROID_SDK_ROOT }}/ndk/${{ env.ANDROID_NDK_VERSION }} \
           -android-sdk ${{ env.ANDROID_SDK_ROOT }} \
           -android-abis ${{ matrix.config.architecture }} \
-          -DQT_NO_PACKAGE_VERSION_CHECK=TRUE
-
-    - name: Build Qt
-      run: |
-        cmake \
-          -S . \
-          -B build \
           -DCMAKE_C_COMPILER_FRONTEND_VARIANT=GNU \
           -DCMAKE_CXX_COMPILER_FRONTEND_VARIANT=GNU \
           -DQT_GENERATE_WRAPPER_SCRIPTS_FOR_ALL_HOSTS=ON
+
+# -DQT_NO_PACKAGE_VERSION_CHECK=TRUE \
+    - name: Build Qt
+      run: |
         ninja \
           -C build
