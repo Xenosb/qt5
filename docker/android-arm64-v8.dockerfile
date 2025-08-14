@@ -58,19 +58,19 @@ RUN \
       "ndk;$ANDROID_NDK_VERSION"
 
 # Install latest stable Qt version
-# RUN \
-#     --mount=type=secret,id=QT_USERNAME,env=QT_USERNAME \
-#     --mount=type=secret,id=QT_PASSWORD,env=QT_PASSWORD \
-#     wget https://download.qt.io/official_releases/online_installers/qt-online-installer-linux-x64-online.run && \
-#     chmod +x qt-online-installer-linux-x64-online.run && \
-#     ./qt-online-installer-linux-x64-online.run \
-#         --accept-licenses \
-#         --accept-obligations \
-#         --default-answer \
-#         --confirm-command \
-#         --email $QT_EMAIL \
-#         --pw $QT_PASSWORD \
-#         install qt$QT_STABLE_VERSION-essentials-dev
+RUN \
+    --mount=type=secret,id=QT_EMAIL,env=QT_EMAIL \
+    --mount=type=secret,id=QT_PASSWORD,env=QT_PASSWORD \
+    wget https://download.qt.io/official_releases/online_installers/qt-online-installer-linux-x64-online.run && \
+    chmod +x qt-online-installer-linux-x64-online.run && \
+    ./qt-online-installer-linux-x64-online.run \
+        install qt$QT_STABLE_VERSION-essentials-dev \
+        --accept-licenses \
+        --accept-obligations \
+        --default-answer \
+        --confirm-command \
+        --email $QT_EMAIL \
+        --pw $QT_PASSWORD
 
 # Set default workdir
 WORKDIR /workspace
