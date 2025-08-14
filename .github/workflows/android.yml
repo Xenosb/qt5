@@ -120,6 +120,24 @@ jobs:
         repository: Qt/qt5
         token: ${{ secrets.PRIVATE_TOKEN_GITHUB }}
         submodules: recursive
+    
+    - name: Configure host tools
+      run: |
+        mkdir -p build-host-tools
+        cd build-host-tools
+        ../configure \
+          -developer-build \
+          -nomake tests \
+          -nomake examples
+        cmake \
+          -B build-host-tools \
+          -S .
+
+    - name: Build host tools
+      run: |
+        ninja \
+          -C build-host-tools \
+          host_tools
 
     - name: Configure Qt
       run: |
